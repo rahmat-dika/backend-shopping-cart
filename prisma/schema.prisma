@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+model Addresses {
+  AddressID    Int     @id(map: "PK__Addresse__091C2A1BC416867A") @default(autoincrement())
+  CartID       Int
+  AddressLine1 String  @db.NVarChar(255)
+  AddressLine2 String? @db.NVarChar(255)
+  City         String  @db.NVarChar(100)
+  State        String  @db.NVarChar(100)
+  ZipCode      String  @db.NVarChar(20)
+  Carts        Carts   @relation(fields: [CartID], references: [CartID], onUpdate: NoAction, map: "FK__Addresses__CartI__440B1D61")
+}
+
+model CartItems {
+  CartItemID Int      @id(map: "PK__CartItem__488B0B2A17702A5D") @default(autoincrement())
+  CartID     Int
+  ProductID  Int
+  Quantity   Int
+  Carts      Carts    @relation(fields: [CartID], references: [CartID], onUpdate: NoAction, map: "FK__CartItems__CartI__44FF419A")
+  Products   Products @relation(fields: [ProductID], references: [ProductID], onUpdate: NoAction, map: "FK__CartItems__Produ__45F365D3")
+}
+
+model Carts {
+  CartID    Int         @id(map: "PK__Carts__51BCD7973259E00D") @default(autoincrement())
+  CreatedAt DateTime?   @default(now(), map: "DF__Carts__CreatedAt__3F466844") @db.DateTime
+  updatedAt DateTime?   @default(now(), map: "DF__Carts__updatedAt__403A8C7D") @db.DateTime
+  Addresses Addresses[]
+  CartItems CartItems[]
+  Orders    Orders[]
+}
+
+model Orders {
+  OrderID     Int       @id(map: "PK__Orders__C3905BAF64DB5BBF") @default(autoincrement())
+  CartID      Int
+  OrderDate   DateTime? @default(now(), map: "DF__Orders__OrderDat__412EB0B6") @db.DateTime
+  TotalAmount Decimal?  @db.Decimal(10, 2)
+  Carts       Carts     @relation(fields: [CartID], references: [CartID], onUpdate: NoAction, map: "FK__Orders__CartID__46E78A0C")
+}
+
+model Products {
+  ProductID   Int         @id(map: "PK__Products__B40CC6ED8752482F") @default(autoincrement())
+  Name        String      @db.NVarChar(100)
+  Description String?     @db.NVarChar(Max)
+  Price       Decimal     @db.Decimal(10, 2)
+  Stock       Int
+  CreatedAt   DateTime?   @default(now(), map: "DF__Products__Create__4222D4EF") @db.DateTime
+  updatedAt   DateTime?   @default(now(), map: "DF__Products__update__4316F928") @db.DateTime
+  CartItems   CartItems[]
+}
+
+model Users {
+  UserID    Int       @id(map: "PK_Users") @default(autoincrement())
+  Email     String    @db.VarChar(50)
+  Password  String    @db.VarChar(Max)
+  Name      String    @db.VarChar(50)
+  Role      String    @db.VarChar(50)
+  CreatedAt DateTime? @default(now(), map: "DF__Users__CreatedAt__4AB81AF0") @db.DateTime
+  updatedAt DateTime? @default(now(), map: "DF__Users__updatedAt__4BAC3F29") @db.DateTime
+}
