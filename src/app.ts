@@ -13,7 +13,7 @@ const app: Application = express();
 
 app.use(bodyParser.json());
 app.use(cors());
-app.use("/uploads", express.static(path.join(__dirname, "../src/uploads")));
+app.use("/api/uploads", express.static(path.join(__dirname, "../src/uploads")));
 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
