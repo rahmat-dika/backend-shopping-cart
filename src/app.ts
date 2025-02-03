@@ -6,10 +6,13 @@ import userRoutes from "./routes/userRoutes";
 import cartRoutes from "./routes/cartRoutes";
 import orderRoutes from "./routes/orderRoutes";
 import cartItemsRoutes from "./routes/cartItemsRoutes";
+import cors from "cors";
 
 const app: Application = express();
 
 app.use(bodyParser.json());
+app.use(cors());
+
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/carts', cartRoutes);
