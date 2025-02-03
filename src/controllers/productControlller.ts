@@ -12,21 +12,23 @@ export const getAllProduct = async (req: Request, res: Response) => {
 
 export const createProduct = async (req: Request, res: Response) => {
   const { Name, Description, Price, Stock } = req.body;
+  const Picture = req.file ? req.file.filename : null;
 
   try {
-    const newProducts = await prisma.products.create({
+    const newProduct = await prisma.products.create({
       data: {
         Name,
         Description,
-        Price,
-        Stock
-      }
+        Price: parseFloat(Price),
+        Stock: parseInt(Stock, 10),
+        Picture,
+      },
     });
-    res.status(201).json(newProducts);
+    res.status(201).json(newProduct);
   } catch (error) {
-    res.status(500).json({ error: "Error creating products" });
+    res.status(500).json({ error: "Error creating product" });
   }
-}
+};
 
 export const getProductByID = async (req: Request, res: Response) => {
   try {
