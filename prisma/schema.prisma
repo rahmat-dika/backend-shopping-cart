@@ -31,6 +31,7 @@ model Carts {
   CartID    Int         @id(map: "PK__Carts__51BCD7973259E00D") @default(autoincrement())
   CreatedAt DateTime?   @default(now(), map: "DF__Carts__CreatedAt__3F466844") @db.DateTime
   updatedAt DateTime?   @default(now(), map: "DF__Carts__updatedAt__403A8C7D") @db.DateTime
+  isActive  Boolean?    @default(true)
   Addresses Addresses[]
   CartItems CartItems[]
   Orders    Orders[]
@@ -69,7 +70,7 @@ model Users {
 model sysdiagrams {
   name         String @db.NVarChar(128)
   principal_id Int
-  diagram_id   Int    @id(map: "PK__sysdiagr__C2B05B6104A0CCE0") @default(autoincrement())
+  diagram_id   Int    @id(map: "PK__sysdiagr__C2B05B61D018D05F") @default(autoincrement())
   version      Int?
   definition   Bytes?
 

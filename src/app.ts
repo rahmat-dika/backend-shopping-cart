@@ -8,6 +8,7 @@ import orderRoutes from "./routes/orderRoutes";
 import cartItemsRoutes from "./routes/cartItemsRoutes";
 import cors from "cors";
 import path from "path";
+import path from "path";
 
 const app: Application = express();
 
