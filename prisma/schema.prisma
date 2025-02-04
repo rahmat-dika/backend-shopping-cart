@@ -31,6 +31,7 @@ model Carts {
   CartID    Int         @id(map: "PK__Carts__51BCD7973259E00D") @default(autoincrement())
   CreatedAt DateTime?   @default(now(), map: "DF__Carts__CreatedAt__3F466844") @db.DateTime
   updatedAt DateTime?   @default(now(), map: "DF__Carts__updatedAt__403A8C7D") @db.DateTime
+  isActive  Boolean?    @default(true)
   Addresses Addresses[]
   CartItems CartItems[]
   Orders    Orders[]
@@ -64,4 +65,14 @@ model Users {
   Role      String    @db.VarChar(50)
   CreatedAt DateTime? @default(now(), map: "DF__Users__CreatedAt__4AB81AF0") @db.DateTime
   updatedAt DateTime? @default(now(), map: "DF__Users__updatedAt__4BAC3F29") @db.DateTime
+}
+
+model sysdiagrams {
+  name         String @db.NVarChar(128)
+  principal_id Int
+  diagram_id   Int    @id(map: "PK__sysdiagr__C2B05B61D018D05F") @default(autoincrement())
+  version      Int?
+  definition   Bytes?
+
+  @@unique([principal_id, name], map: "UK_principal_name")
 }
