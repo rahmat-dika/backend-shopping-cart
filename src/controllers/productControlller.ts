@@ -1,9 +1,29 @@
 import { Request, Response } from "express";
 import prisma from "../utils/prismaClient";
 
-export const getAllProduct = async (req: Request, res: Response) => {
+export const getAllProduct2 = async (req: Request, res: Response) => {
   try {
     const products = await prisma.products.findMany();
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: "Error retriviying products" });
+  }
+}
+
+export const getAllProduct = async (req: Request, res: Response) => {
+  try {
+    const { page = "1", limit = "10" } = req.query as { page?: string; limit?: string };
+    const pageNumber = parseInt(page, 10);
+    const limitNumber = parseInt(limit, 10);
+    const currentPage = isNaN(pageNumber) || pageNumber < 1 ? 1 : pageNumber;
+    const pageLimit = isNaN(limitNumber) || limitNumber < 1 ? 10 : limitNumber;
+
+    const skip = (currentPage - 1) * pageLimit;
+  
+    const products = await prisma.products.findMany({
+      skip,
+      take: pageLimit,
+    });
     res.json(products);
   } catch (error) {
     res.status(500).json({ error: "Error retriviying products" });
