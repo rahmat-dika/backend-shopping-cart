@@ -4,9 +4,15 @@ import prisma from "../utils/prismaClient";
 export const getAllCartItems = async (req: Request, res: Response) => {
     try{
         const cartItems = await prisma.cartItems.findMany({
-            include:{
+            where: {
+                Carts: {
+                    isActive: true,
+                },
+            },
+            include: {
                 Products: true,
-            }
+                Carts: true,
+            },
         });
         res.json(cartItems);
     }catch(error){
