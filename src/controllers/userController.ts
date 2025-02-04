@@ -9,6 +9,12 @@ const SECRET_KEY = "@patria2025";
 export const registerUser = async (req: Request, res: Response) => {
   const { Email, Password, Name, Role = "user" } = req.body;
   try {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+    if (!Password || !passwordRegex.test(Password)) {
+      res.status(400).json({ error: "Password must be at least 8 characters, contain uppercase letters, numbers, and unique characters." });
+    }
+
     const hashedPassword = await bcrypt.hash(Password, 10);
     const user = await prisma.users.create({ data: {Email, Password: hashedPassword, Name, Role}});
 
