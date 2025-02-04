@@ -56,6 +56,11 @@ export const createOrder = async (req: Request, res: Response) => {
         totalAmount +=  price  * item.Quantity;
       }
 
+      await prisma.carts.update({ 
+        where: { CartID: CartID },
+        data: { isActive: false }
+      });
+
       const newOrder = await (tx || prisma).orders.create({
         data: {
           CartID,
@@ -66,6 +71,7 @@ export const createOrder = async (req: Request, res: Response) => {
       res.status(201).json(newOrder);
     });
   } catch (error) {
+    console.log(error)
     res.status(500).json({ error: "Error creating orders" });
   }
 }
