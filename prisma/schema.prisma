@@ -52,7 +52,7 @@ model Products {
   Stock       Int
   CreatedAt   DateTime?   @default(now(), map: "DF__Products__Create__4222D4EF") @db.DateTime
   updatedAt   DateTime?   @default(now(), map: "DF__Products__update__4316F928") @db.DateTime
-  Picture     String?     @db.VarChar(255)
+  Picture     String?     @db.NVarChar(100)
   CartItems   CartItems[]
 }
 

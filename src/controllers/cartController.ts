@@ -40,22 +40,24 @@ export const createCart = async (req: Request, res: Response) => {
     }   
 };
 
-export const updateCart = async (req: Request, res: Response) => {
-    try{
-        const { CartID } = req.body;
-        const newCart = await prisma.carts.update({
-            where:{
-                CartID
-            },
-            data:{
+// export const updateCart = async (req: Request, res: Response) => {
+//   const { IsActive } = req.body;
 
-            }
-        })
-        res.status(201).json(newCart);
-    }catch(error){
-        res.status(500).json({error: "Error updated cart"});
-    }   
-};
+//     try{
+//         const id = parseInt(req.params.id);
+//         const updateCart = await prisma.carts.update({
+//             where:{
+//                 CartID: id,
+//             },
+//             data:{
+//                 IsActive
+//             }
+//         });
+//         res.status(201).json(updateCart);
+//     }catch(error){
+//         res.status(500).json({error: "Error updated cart"});
+//     }   
+// };
 
 export const deleteCart = async (req: Request, res: Response) => {
     try{
