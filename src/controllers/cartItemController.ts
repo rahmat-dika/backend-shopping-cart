@@ -14,6 +14,12 @@ export const getAllCartItems = async (req: Request, res: Response) => {
                 Carts: true,
             },
         });
+
+        if (!cartItems) {
+            res.status(404).json({ error: "Cart not found" });
+            return;
+        }
+        
         res.json(cartItems);
     }catch(error){
         res.status(500).json({error: "Error retrieving cartItems"});
@@ -31,6 +37,7 @@ export const getCartItemsById = async (req: Request, res: Response) => {
         
         if (!carts) {
             res.status(404).json({ error: "Cart not found" });
+            return;
         }
         res.json(carts);
     }catch(error){
